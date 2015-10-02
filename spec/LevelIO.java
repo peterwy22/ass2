@@ -1,5 +1,5 @@
 package ass2.spec;
-
+ 
 import java.awt.Dimension;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,9 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONTokener;
+import ass2.org.json.*;
 
 /**
  * COMMENT: Comment LevelIO 

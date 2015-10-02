@@ -1,4 +1,4 @@
-package org.json;
+package ass2.org.json;
 
 /*
 Copyright (c) 2008 JSON.org

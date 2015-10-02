@@ -1,4 +1,4 @@
-package org.json;
+package ass2.org.json;
 
 import java.io.IOException;
 import java.io.Writer;
