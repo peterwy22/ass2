@@ -70,7 +70,9 @@ public class Game extends JFrame implements GLEventListener{
     	//if (colour == null){
     		//return;
     	//}
-
+    	//System.out.print(p1[0] + ","+p1[1]+","+p1[2]+"|");
+    	//System.out.print(p2[0] + ","+p2[1]+","+p2[2]+"|");
+    	//System.out.println(p3[0] + ","+p3[1]+","+p3[2]+"|");
     	gl.glColor4d(colour[0], colour[1],colour[2],colour[3]);
 		gl.glBegin(GL2.GL_TRIANGLES);
 		{	
@@ -86,15 +88,16 @@ public class Game extends JFrame implements GLEventListener{
     private void drawTerrain(GL2 gl){
     	Dimension size = myTerrain.size();
     	for (int x = 0; x < size.width - 1; x++){
-    		for (int z = 0; z < size.height; z++){
-    			double[] p1 = {x,myTerrain.altitude(x, z),z};
-    			double[] p2 = {x+1,myTerrain.altitude(x+1, z),z};
-    			double[] p3 = {x,myTerrain.altitude(x, z+1),z+1};
+    		for (int z = 0; z < size.height - 1; z++){
+    			//System.out.println(this.myTerrain.altitude(x, z));
+    			double[] p3 = {x,myTerrain.getGridAltitude(x, z),z};
+    			double[] p2 = {x+1,myTerrain.getGridAltitude(x+1, z),z};
+    			double[] p1 = {x,myTerrain.getGridAltitude(x, z+1),z+1};
     			drawTriangle(p1, p2, p3, green, gl);
     			
-    			double[] p4 = {x,myTerrain.altitude(x, z+1),z+1};
-    			double[] p5 = {x+1,myTerrain.altitude(x+1, z),z};
-    			double[] p6 = {x+1,myTerrain.altitude(x+1, z+1),z+1};
+    			double[] p6 = {x,myTerrain.getGridAltitude(x, z+1),z+1};
+    			double[] p5 = {x+1,myTerrain.getGridAltitude(x+1, z),z};
+    			double[] p4 = {x+1,myTerrain.getGridAltitude(x+1, z+1),z+1};
     			drawTriangle(p4, p5, p6, green, gl);
     		}
     	}
@@ -106,18 +109,20 @@ public class Game extends JFrame implements GLEventListener{
 		GL2 gl = drawable.getGL().getGL2();
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
     	gl.glLoadIdentity();
-
+    	//gl.glScaled(0.1, 0.1, 0.1);
     	gl.glClearColor(0.3f ,0.3f, 0.3f, 1);
     	gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
+    	gl.glRotated(30, 1, 0, 0);
+    	gl.glScaled(0.1, 0.1, 0.1);
+    	//gl.glTranslated(0, -1, 0);
     	drawTerrain(gl);
     	
     	
-    	double[] p1 = {0.5,0,0};
+    	double[] p3 = {0.5,0,0};
     	double[] p2 = {0.5,0.5,0};
-    	double[] p3 = {0,0,0};
+    	double[] p1 = {0,0,0};	
     	this.drawTriangle(p1, p2, p3, green, gl);
     	
-		//gl.glScaled(0.1, 0.1, 0.1);
     	//gl.glColor4d(1,1,1,1);
 		
 	}
