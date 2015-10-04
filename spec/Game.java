@@ -26,6 +26,7 @@ public class Game extends JFrame implements GLEventListener{
 
     private Terrain myTerrain;
     private double[] green = {0,1,0,1};
+    private boolean showLines = false;
 
     public Game(Terrain terrain) {
     	super("Assignment 2");
@@ -76,12 +77,27 @@ public class Game extends JFrame implements GLEventListener{
     	gl.glColor4d(colour[0], colour[1],colour[2],colour[3]);
 		gl.glBegin(GL2.GL_TRIANGLES);
 		{	
+			double[] n = getNormal(p1, p2, p3);
+			n = normalise(n);
+			gl.glNormal3d(n[0],n[1],n[2]);
             gl.glVertex3d(p1[0], p1[1], p1[2]);
             gl.glVertex3d(p2[0], p2[1], p2[2]);
             gl.glVertex3d(p3[0], p3[1], p3[2]);
            
         }
         gl.glEnd();
+        
+        if (showLines){
+        	gl.glColor4d(0,0,0,1);
+    		gl.glBegin(GL2.GL_LINE_LOOP);
+    		{	
+                gl.glVertex3d(p1[0], p1[1], p1[2]);
+                gl.glVertex3d(p2[0], p2[1], p2[2]);
+                gl.glVertex3d(p3[0], p3[1], p3[2]);
+               
+            }
+            gl.glEnd();
+        }
 		
 	}
     
@@ -112,20 +128,50 @@ public class Game extends JFrame implements GLEventListener{
     	//gl.glScaled(0.1, 0.1, 0.1);
     	gl.glClearColor(0.3f ,0.3f, 0.3f, 1);
     	gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
-    	gl.glRotated(30, 1, 0, 0);
+    	gl.glRotated(45, 1, 0, 0);
     	gl.glScaled(0.1, 0.1, 0.1);
-    	//gl.glTranslated(0, -1, 0);
+    	gl.glTranslated(0, 0,0 );
     	drawTerrain(gl);
     	
-    	
+    	/*
     	double[] p3 = {0.5,0,0};
     	double[] p2 = {0.5,0.5,0};
     	double[] p1 = {0,0,0};	
     	this.drawTriangle(p1, p2, p3, green, gl);
+    	*/
     	
     	//gl.glColor4d(1,1,1,1);
 		
 	}
+	
+	double getMagnitude(double [] n){
+    	double mag = n[0]*n[0] + n[1]*n[1] + n[2]*n[2];
+    	mag = Math.sqrt(mag);
+    	return mag;
+    }
+    
+    double [] normalise(double [] n){
+    	double  mag = getMagnitude(n);
+    	double norm[] = {n[0]/mag,n[1]/mag,n[2]/mag};
+    	return norm;
+    }
+	
+	double [] cross(double u [], double v[]){
+    	double crossProduct[] = new double[3];
+    	crossProduct[0] = u[1]*v[2] - u[2]*v[1];
+    	crossProduct[1] = u[2]*v[0] - u[0]*v[2];
+    	crossProduct[2] = u[0]*v[1] - u[1]*v[0];
+    	//System.out.println("CP " + crossProduct[0] + " " +  crossProduct[1] + " " +  crossProduct[2]);
+    	return crossProduct;
+    }
+    
+    double [] getNormal(double[] p0, double[] p1, double[] p2){
+    	double u[] = {p1[0] - p0[0], p1[1] - p0[1], p1[2] - p0[2]};
+    	double v[] = {p2[0] - p0[0], p2[1] - p0[1], p2[2] - p0[2]};
+    	
+    	return cross(u,v);
+    	
+    }
 
 	@Override
 	public void dispose(GLAutoDrawable drawable) {
@@ -138,10 +184,11 @@ public class Game extends JFrame implements GLEventListener{
 		// TODO Auto-generated method stub
 		GL2 gl = drawable.getGL().getGL2();
     	gl.glEnable(GL2.GL_DEPTH_TEST);
-    	gl.glEnable(GL2.GL_CULL_FACE);
-    	gl.glCullFace(GL2.GL_BACK);
-    	//gl.glEnable(GL2.GL_LIGHTING);
-    	//gl.glEnable(GL2.GL_LIGHT0); 
+    	//gl.glEnable(GL2.GL_CULL_FACE);
+    	//gl.glCullFace(GL2.GL_BACK);
+    	gl.glEnable(GL2.GL_LIGHTING);
+    	gl.glEnable(GL2.GL_LIGHT0); 
+    	gl.glEnable(GL2.GL_NORMALIZE);
 		
 	}
 
