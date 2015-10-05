@@ -25,7 +25,6 @@ import com.jogamp.opengl.util.FPSAnimator;
 public class Game extends JFrame implements GLEventListener{
 
     private Terrain myTerrain;
-    private double[] green = {0,1,0,1};
     private boolean showLines = false;
 
     public Game(Terrain terrain) {
@@ -67,58 +66,7 @@ public class Game extends JFrame implements GLEventListener{
         game.run();
     }
     
-    private void drawTriangle(double[] p1, double[] p2, double[] p3,double[] colour, GL2 gl) {
-    	//if (colour == null){
-    		//return;
-    	//}
-    	//System.out.print(p1[0] + ","+p1[1]+","+p1[2]+"|");
-    	//System.out.print(p2[0] + ","+p2[1]+","+p2[2]+"|");
-    	//System.out.println(p3[0] + ","+p3[1]+","+p3[2]+"|");
-    	gl.glColor4d(colour[0], colour[1],colour[2],colour[3]);
-		gl.glBegin(GL2.GL_TRIANGLES);
-		{	
-			double[] n = getNormal(p1, p2, p3);
-			n = normalise(n);
-			gl.glNormal3d(n[0],n[1],n[2]);
-            gl.glVertex3d(p1[0], p1[1], p1[2]);
-            gl.glVertex3d(p2[0], p2[1], p2[2]);
-            gl.glVertex3d(p3[0], p3[1], p3[2]);
-           
-        }
-        gl.glEnd();
-        
-        if (showLines){
-        	gl.glColor4d(0,0,0,1);
-    		gl.glBegin(GL2.GL_LINE_LOOP);
-    		{	
-                gl.glVertex3d(p1[0], p1[1], p1[2]);
-                gl.glVertex3d(p2[0], p2[1], p2[2]);
-                gl.glVertex3d(p3[0], p3[1], p3[2]);
-               
-            }
-            gl.glEnd();
-        }
-		
-	}
     
-    private void drawTerrain(GL2 gl){
-    	Dimension size = myTerrain.size();
-    	for (int x = 0; x < size.width - 1; x++){
-    		for (int z = 0; z < size.height - 1; z++){
-    			//System.out.println(this.myTerrain.altitude(x, z));
-    			double[] p3 = {x,myTerrain.getGridAltitude(x, z),z};
-    			double[] p2 = {x+1,myTerrain.getGridAltitude(x+1, z),z};
-    			double[] p1 = {x,myTerrain.getGridAltitude(x, z+1),z+1};
-    			drawTriangle(p1, p2, p3, green, gl);
-    			
-    			double[] p6 = {x,myTerrain.getGridAltitude(x, z+1),z+1};
-    			double[] p5 = {x+1,myTerrain.getGridAltitude(x+1, z),z};
-    			double[] p4 = {x+1,myTerrain.getGridAltitude(x+1, z+1),z+1};
-    			drawTriangle(p4, p5, p6, green, gl);
-    		}
-    	}
-    }
-
 	@Override
 	public void display(GLAutoDrawable drawable) {
 		// TODO Auto-generated method stub
@@ -131,7 +79,7 @@ public class Game extends JFrame implements GLEventListener{
     	gl.glRotated(45, 1, 0, 0);
     	gl.glScaled(0.1, 0.1, 0.1);
     	gl.glTranslated(0, 0,0 );
-    	drawTerrain(gl);
+    	myTerrain.draw(gl);
     	
     	/*
     	double[] p3 = {0.5,0,0};
@@ -143,35 +91,6 @@ public class Game extends JFrame implements GLEventListener{
     	//gl.glColor4d(1,1,1,1);
 		
 	}
-	
-	double getMagnitude(double [] n){
-    	double mag = n[0]*n[0] + n[1]*n[1] + n[2]*n[2];
-    	mag = Math.sqrt(mag);
-    	return mag;
-    }
-    
-    double [] normalise(double [] n){
-    	double  mag = getMagnitude(n);
-    	double norm[] = {n[0]/mag,n[1]/mag,n[2]/mag};
-    	return norm;
-    }
-	
-	double [] cross(double u [], double v[]){
-    	double crossProduct[] = new double[3];
-    	crossProduct[0] = u[1]*v[2] - u[2]*v[1];
-    	crossProduct[1] = u[2]*v[0] - u[0]*v[2];
-    	crossProduct[2] = u[0]*v[1] - u[1]*v[0];
-    	//System.out.println("CP " + crossProduct[0] + " " +  crossProduct[1] + " " +  crossProduct[2]);
-    	return crossProduct;
-    }
-    
-    double [] getNormal(double[] p0, double[] p1, double[] p2){
-    	double u[] = {p1[0] - p0[0], p1[1] - p0[1], p1[2] - p0[2]};
-    	double v[] = {p2[0] - p0[0], p2[1] - p0[1], p2[2] - p0[2]};
-    	
-    	return cross(u,v);
-    	
-    }
 
 	@Override
 	public void dispose(GLAutoDrawable drawable) {

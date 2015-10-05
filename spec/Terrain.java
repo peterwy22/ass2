@@ -28,6 +28,8 @@ public class Terrain {
     private List<Tree> myTrees;
     private List<Road> myRoads;
     private float[] mySunlight;
+    private double[] green = {0,1,0,1};
+    private boolean showLines = false;
 
     /**
      * Create a new terrain
@@ -159,6 +161,57 @@ public class Terrain {
     public void addRoad(double width, double[] spine) {
         Road road = new Road(width, spine);
         myRoads.add(road);        
+    }
+    
+    private void drawTriangle(double[] p1, double[] p2, double[] p3,double[] colour, GL2 gl) {
+    	//if (colour == null){
+    		//return;
+    	//}
+    	//System.out.print(p1[0] + ","+p1[1]+","+p1[2]+"|");
+    	//System.out.print(p2[0] + ","+p2[1]+","+p2[2]+"|");
+    	//System.out.println(p3[0] + ","+p3[1]+","+p3[2]+"|");
+    	gl.glColor4d(colour[0], colour[1],colour[2],colour[3]);
+		gl.glBegin(GL2.GL_TRIANGLES);
+		{	
+			double[] n = MathUtil.getNormal(p1, p2, p3);
+			n = MathUtil.normalise(n);
+			gl.glNormal3d(n[0],n[1],n[2]);
+            gl.glVertex3d(p1[0], p1[1], p1[2]);
+            gl.glVertex3d(p2[0], p2[1], p2[2]);
+            gl.glVertex3d(p3[0], p3[1], p3[2]);
+           
+        }
+        gl.glEnd();
+        
+        if (showLines){
+        	gl.glColor4d(0,0,0,1);
+    		gl.glBegin(GL2.GL_LINE_LOOP);
+    		{	
+                gl.glVertex3d(p1[0], p1[1], p1[2]);
+                gl.glVertex3d(p2[0], p2[1], p2[2]);
+                gl.glVertex3d(p3[0], p3[1], p3[2]);
+               
+            }
+            gl.glEnd();
+        }
+		
+	}
+    
+    public void draw(GL2 gl){
+    	for (int x = 0; x < mySize.width - 1; x++){
+    		for (int z = 0; z < mySize.height - 1; z++){
+    			//System.out.println(this.myTerrain.altitude(x, z));
+    			double[] p3 = {x,getGridAltitude(x, z),z};
+    			double[] p2 = {x+1,getGridAltitude(x+1, z),z};
+    			double[] p1 = {x,getGridAltitude(x, z+1),z+1};
+    			drawTriangle(p1, p2, p3, green, gl);
+    			
+    			double[] p6 = {x,getGridAltitude(x, z+1),z+1};
+    			double[] p5 = {x+1,getGridAltitude(x+1, z),z};
+    			double[] p4 = {x+1,getGridAltitude(x+1, z+1),z+1};
+    			drawTriangle(p4, p5, p6, green, gl);
+    		}
+    	}
     }
 
 

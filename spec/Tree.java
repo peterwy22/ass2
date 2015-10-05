@@ -20,5 +20,9 @@ public class Tree {
         return myPos;
     }
     
+    public void draw(){
+    	
+    }
+    
 
 }
