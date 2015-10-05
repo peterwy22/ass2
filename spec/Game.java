@@ -76,9 +76,9 @@ public class Game extends JFrame implements GLEventListener{
     	//gl.glScaled(0.1, 0.1, 0.1);
     	gl.glClearColor(0.3f ,0.3f, 0.3f, 1);
     	gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
-    	gl.glRotated(45, 1, 0, 0);
+    	gl.glRotated(60, 1, 0, 0);
+    	gl.glRotated(180, 0, 1, 0);
     	gl.glScaled(0.1, 0.1, 0.1);
-    	gl.glTranslated(0, 0,0 );
     	myTerrain.draw(gl);
     	
     	/*

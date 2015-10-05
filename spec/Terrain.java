@@ -146,7 +146,7 @@ public class Terrain {
      * @param z
      */
     public void addTree(double x, double z) {
-        double y = altitude(x, z);
+        double y = getGridAltitude((int)x, (int)z);
         Tree tree = new Tree(x, y, z);
         myTrees.add(tree);
     }
@@ -212,6 +212,12 @@ public class Terrain {
     			drawTriangle(p4, p5, p6, green, gl);
     		}
     	}
+    	
+    	for (int i = 0; i < myTrees.size(); i++){
+    		myTrees.get(i).draw(gl);
+    		//System.out.println(i);
+    	}
+    	
     }
 
 

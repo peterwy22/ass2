@@ -12,7 +12,7 @@ public class Tree {
     private double[] myPos;
     private int stacks = 20;
     private int slices = 10;
-    private double radius = 0.5;
+    private double radius = 1;
     public Tree(double x, double y, double z) {
         myPos = new double[3];
         myPos[0] = x;
@@ -32,6 +32,9 @@ public class Tree {
     	int ang;  
     	int delang = 360/slices;
     	double x1,x2,z1,z2,y1,y2;
+    	gl.glMatrixMode(GL2.GL_MODELVIEW);
+    	gl.glPushMatrix();
+    	gl.glTranslated(myPos[0], myPos[1], myPos[2]);
     	for (int i = 0; i < stacks; i++) 
     	{ 
     		double t = -0.25 + i*deltaT;
@@ -48,24 +51,24 @@ public class Tree {
     			z2= radius * MathUtil.sphereR(t+deltaT)*Math.sin((double)ang*2.0*Math.PI/360.0);  
     			y2 = radius * MathUtil.sphereGetY(t+deltaT);
 
-    			double normal[] = {x1,y1,z1};
+    			double normal[] = {-x1,-y1,-z1};
 
 
     			MathUtil.normalise(normal);    
 
     			gl.glNormal3dv(normal,0);         
     			gl.glVertex3d(x1,y1,z1);
-    			normal[0] = x2;
-    			normal[1] = y2;
-    			normal[2] = z2;
+    			normal[0] = -x2;
+    			normal[1] = -y2;
+    			normal[2] = -z2;
 
     			MathUtil.normalise(normal);    
     			gl.glNormal3dv(normal,0); 
     			gl.glVertex3d(x2,y2,z2); 
-
     		}; 
-    		gl.glEnd();  
+    		gl.glEnd();
     	}
+    	gl.glPopMatrix();
     }
     
 
