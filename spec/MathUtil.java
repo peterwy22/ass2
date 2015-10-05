@@ -29,4 +29,15 @@ public class MathUtil {
     	return cross(u,v);
     	
     }
+	
+	public static double sphereR(double t){
+    	double x  = Math.cos(2 * Math.PI * t);
+        return x;
+    }
+    
+    public static double sphereGetY(double t){
+    	
+    	double y  = Math.sin(2 * Math.PI * t);
+        return y;
+    }
 }
