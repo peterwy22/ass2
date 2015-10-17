@@ -12,7 +12,8 @@ public class Tree {
     private double[] myPos;
     private int stacks = 20;
     private int slices = 10;
-    private double radius = 1;
+    private double radius = 0.6;
+    private double height = 1;
     public Tree(double x, double y, double z) {
         myPos = new double[3];
         myPos[0] = x;
@@ -24,17 +25,14 @@ public class Tree {
         return myPos;
     }
     
-    public void draw(GL2 gl){
+    public void drawLeaf(GL2 gl){
     	double deltaT;
-    
-    	
     	deltaT = 0.5/stacks;
     	int ang;  
     	int delang = 360/slices;
     	double x1,x2,z1,z2,y1,y2;
-    	gl.glMatrixMode(GL2.GL_MODELVIEW);
     	gl.glPushMatrix();
-    	gl.glTranslated(myPos[0], myPos[1], myPos[2]);
+    	gl.glTranslated(0, height, 0);
     	for (int i = 0; i < stacks; i++) 
     	{ 
     		double t = -0.25 + i*deltaT;
@@ -68,6 +66,18 @@ public class Tree {
     		}; 
     		gl.glEnd();
     	}
+    	gl.glPopMatrix();
+    }
+    
+    public void drawTrunk(){
+    	
+    }
+    
+    public void draw(GL2 gl){
+    	gl.glMatrixMode(GL2.GL_MODELVIEW);
+    	gl.glPushMatrix();
+    	gl.glTranslated(myPos[0], myPos[1], myPos[2]);
+    	drawLeaf(gl);
     	gl.glPopMatrix();
     }
     
