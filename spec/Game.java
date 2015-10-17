@@ -113,8 +113,15 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     	eye[1] = AvatorPosition[1] + cameraHeight;
     	eye[2] = AvatorPosition[2] + Math.cos(Math.toRadians(angle)) * cameraDistance;
     	
-    	GLU glu = new GLU();
-    	glu.gluLookAt(eye[0], -eye[1], eye[2], AvatorPosition[0], AvatorPosition[1], AvatorPosition[2], 0, 1, 0);
+    	//GLU glu = new GLU();
+    	//glu.gluLookAt(eye[0], -eye[1], eye[2], AvatorPosition[0], AvatorPosition[1], AvatorPosition[2], 0, 1, 0);
+    }
+    
+    public void setCamera(GL2 gl){
+    	gl.glRotated(Math.toDegrees(-Math.atan2(cameraHeight,cameraDistance)), 1, 0, 0);
+    	gl.glRotated(-angle, 0, 1, 0);
+    	gl.glTranslated(Math.sin(Math.toRadians(angle)) * this.cameraDistance, cameraHeight , Math.sin(Math.toRadians(angle)));
+    	gl.glTranslated(-AvatorPosition[0], -AvatorPosition[1], -AvatorPosition[2]);
     }
     
     
@@ -136,6 +143,7 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     	//gl.glRotated(180, 0, 1, 0);
     	gl.glScaled(0.1, 0.1, 0.1);
     	setAvator(dt);
+    	setCamera(gl);
     	myTerrain.draw(gl);
     	drawAvator(gl, AvatorPosition);
     	
