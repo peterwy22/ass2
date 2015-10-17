@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import javax.media.opengl.GL;
@@ -46,7 +47,7 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     
     private int stacks = 20;
     private int slices = 10;
-    private double radius = 0.3;
+    private double radius = 0.1;
 
     public Game(Terrain terrain) {
     	super("Assignment 2");
@@ -98,14 +99,13 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     	if (AvatorKey.forward.isPressing){
     		location[0] = Math.max(0,Math.min(myTerrain.size().width-1, location[0] + Math.sin(Math.toRadians(angle)) * speed * dt));
     		location[1] = Math.max(0,Math.min(myTerrain.size().height-1, location[1] + Math.cos(Math.toRadians(angle)) * speed * dt));
-    		System.out.println(location[0] + "," + location[1]);
     	}
     	if (AvatorKey.backward.isPressing){
     		location[0] = Math.max(0,Math.min(myTerrain.size().width-1, location[0] - Math.sin(Math.toRadians(angle)) * speed * dt));
     		location[1] = Math.max(0,Math.min(myTerrain.size().height-1, location[1] - Math.cos(Math.toRadians(angle)) * speed * dt));
     	}
     	AvatorPosition[0] = location[0];
-    	AvatorPosition[1] = myTerrain.getGridAltitude((int)location[0], (int)location[1]);
+    	AvatorPosition[1] = myTerrain.altitude(location[0], location[1]);
     	AvatorPosition[2] = location[1];
     	
     	double[] eye = new double[3];
@@ -118,9 +118,9 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     }
     
     public void setCamera(GL2 gl){
+    	//gl.glTranslated(-Math.sin(Math.toRadians(angle)) * this.cameraDistance, -cameraHeight , -Math.sin(Math.toRadians(angle)));
     	gl.glRotated(Math.toDegrees(-Math.atan2(cameraHeight,cameraDistance)), 1, 0, 0);
     	gl.glRotated(-angle, 0, 1, 0);
-    	gl.glTranslated(Math.sin(Math.toRadians(angle)) * this.cameraDistance, cameraHeight , Math.sin(Math.toRadians(angle)));
     	gl.glTranslated(-AvatorPosition[0], -AvatorPosition[1], -AvatorPosition[2]);
     }
     
@@ -141,11 +141,13 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     	gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
     	//gl.glRotated(60, 1, 0, 0);
     	//gl.glRotated(180, 0, 1, 0);
-    	gl.glScaled(0.1, 0.1, 0.1);
+    	gl.glScaled(0.3, 0.3, 0.3);
     	setAvator(dt);
     	setCamera(gl);
     	myTerrain.draw(gl);
     	drawAvator(gl, AvatorPosition);
+    	DecimalFormat df = new DecimalFormat("#.00");
+    	//System.out.println(df.format(AvatorPosition[0]) + "," + df.format(AvatorPosition[2])+ "," + df.format(AvatorPosition[1]));
     	
     	
     	/*
