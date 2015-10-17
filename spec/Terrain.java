@@ -131,10 +131,20 @@ public class Terrain {
      * @return
      */
     public double altitude(double x, double z) {
-        double altitude = 0;
-
-        
-        
+    	double altitude = 0;
+    	int iX = (int)x;
+    	int iZ = (int)z;
+    	int nX = Math.min(iX+1, mySize.width-1);
+    	int nZ = Math.min(iZ+1, mySize.height-1);
+    	if (x-iX + z - iZ < 1 ){
+    		altitude = (x - iX) * (myAltitude[nX][iZ] - myAltitude[iX][iZ]) + myAltitude[iX][iZ];
+    		altitude += (z - iZ) * (myAltitude[iX][nZ] - myAltitude[iX][iZ]);
+    		//System.out.println("case 1");
+    	} else {
+    		altitude = (x - iX) * (myAltitude[nX][nZ] - myAltitude[iX][nZ]) + myAltitude[iX][nZ];
+    		altitude += ( myAltitude[nX][iZ] - myAltitude[nX][nZ])*(1 - z + iZ) ;
+    		//System.out.println("case 2");
+    	}   
         return altitude;
     }
 
@@ -146,7 +156,7 @@ public class Terrain {
      * @param z
      */
     public void addTree(double x, double z) {
-        double y = getGridAltitude((int)x, (int)z);
+        double y = altitude(x, z);
         Tree tree = new Tree(x, y, z);
         myTrees.add(tree);
     }
