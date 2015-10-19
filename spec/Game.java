@@ -44,6 +44,7 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     
     private final double cameraDistance = 1;
     private final double cameraHeight = 0.5;
+    private boolean isFP = false;
     
     private int stacks = 20;
     private int slices = 10;
@@ -104,6 +105,7 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     		location[0] = Math.max(0,Math.min(myTerrain.size().width-1, location[0] - Math.sin(Math.toRadians(angle)) * speed * dt));
     		location[1] = Math.max(0,Math.min(myTerrain.size().height-1, location[1] - Math.cos(Math.toRadians(angle)) * speed * dt));
     	}
+    	
     	AvatorPosition[0] = location[0];
     	AvatorPosition[1] = myTerrain.altitude(location[0], location[1]);
     	AvatorPosition[2] = location[1];
@@ -118,10 +120,17 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     }
     
     public void setCamera(GL2 gl){
+    	if (!isFP){
     	//gl.glTranslated(-Math.sin(Math.toRadians(angle)) * this.cameraDistance, -cameraHeight , -Math.sin(Math.toRadians(angle)));
-    	gl.glRotated(Math.toDegrees(-Math.atan2(cameraHeight,cameraDistance)), 1, 0, 0);
-    	gl.glRotated(-angle, 0, 1, 0);
-    	gl.glTranslated(-AvatorPosition[0], -AvatorPosition[1], -AvatorPosition[2]);
+    		gl.glTranslated(0, 0, 0.5);
+    		gl.glRotated(Math.toDegrees(-Math.atan2(cameraHeight,cameraDistance)), 1, 0, 0);
+    		gl.glRotated(-angle, 0, 1, 0);
+    		gl.glTranslated(-AvatorPosition[0], -AvatorPosition[1], -AvatorPosition[2]);
+    	} else {
+    		gl.glTranslated(0, -2, -1);
+    		gl.glRotated(-angle, 0, 1, 0);
+    		gl.glTranslated(-AvatorPosition[0], -AvatorPosition[1], -AvatorPosition[2]);
+    	}
     }
     
     
@@ -141,11 +150,13 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     	gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
     	//gl.glRotated(60, 1, 0, 0);
     	//gl.glRotated(180, 0, 1, 0);
-    	gl.glScaled(0.3, 0.3, 0.3);
+    	gl.glScaled(0.5, 0.5, 0.5);
     	setAvator(dt);
     	setCamera(gl);
     	myTerrain.draw(gl);
-    	drawAvator(gl, AvatorPosition);
+    	if (!isFP){
+    		drawAvator(gl, AvatorPosition);
+    	}
     	DecimalFormat df = new DecimalFormat("#.00");
     	//System.out.println(df.format(AvatorPosition[0]) + "," + df.format(AvatorPosition[2])+ "," + df.format(AvatorPosition[1]));
     	
@@ -214,9 +225,10 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		// TODO Auto-generated method stub
-		setAvatorKeys(KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_W, KeyEvent.VK_S);
+		setAvatorKeys(KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_F);
 		GL2 gl = drawable.getGL().getGL2();
     	gl.glEnable(GL2.GL_DEPTH_TEST);
+    	gl.glEnable(GL2.GL_PERSPECTIVE_CORRECTION_HINT);
     	//gl.glEnable(GL2.GL_CULL_FACE);
     	//gl.glCullFace(GL2.GL_BACK);
     	gl.glEnable(GL2.GL_LIGHTING);
@@ -233,12 +245,13 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
 		
 	}
 	
-	public void setAvatorKeys(int left, int right, int forward, int backward){
+	public void setAvatorKeys(int left, int right, int forward, int backward, int changeView){
 		keyBindings.clear();
 		bind(left, AvatorKey.turnLeft);
 		bind(right, AvatorKey.turnRight);
 		bind(forward, AvatorKey.forward);
 		bind(backward, AvatorKey.backward);
+		bind(changeView, AvatorKey.changeView);
 	}
 
 	@Override
@@ -246,6 +259,9 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
 		if (isKeyBinded(e.getExtendedKeyCode())){
 			other[e.getExtendedKeyCode()] = true;
 	    	keyBindings.get(e.getKeyCode()).isPressing = true;
+		}
+		if (e.getKeyCode() == KeyEvent.VK_F){
+			isFP = !isFP;
 		}
 		
 	}
