@@ -183,8 +183,9 @@ public class Terrain {
     	gl.glColor4d(colour[0], colour[1],colour[2],colour[3]);
 		gl.glBegin(GL2.GL_TRIANGLES);
 		{	
-			double[] n = MathUtil.getNormal(p3, p2, p1);
+			double[] n = MathUtil.getNormal(p1, p2, p3);
 			n = MathUtil.normalise(n);
+			//System.out.println(n[1]);
 			gl.glNormal3d(n[0],n[1],n[2]);
             gl.glVertex3d(p1[0], p1[1], p1[2]);
             gl.glVertex3d(p2[0], p2[1], p2[2]);

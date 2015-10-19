@@ -203,16 +203,16 @@ public class Road {
     			z2= pathStoneRadius * MathUtil.sphereR(t+deltaT)*Math.sin((double)ang*2.0*Math.PI/360.0);  
     			y2 = pathStoneRadius * MathUtil.sphereGetY(t+deltaT);
 
-    			double normal[] = {-x1,-y1,-z1};
+    			double normal[] = {x1,y1,z1};
 
 
     			MathUtil.normalise(normal);    
 
     			gl.glNormal3dv(normal,0);         
     			gl.glVertex3d(x1,y1,z1);
-    			normal[0] = -x2;
-    			normal[1] = -y2;
-    			normal[2] = -z2;
+    			normal[0] = x2;
+    			normal[1] = y2;
+    			normal[2] = z2;
 
     			MathUtil.normalise(normal);    
     			gl.glNormal3dv(normal,0); 

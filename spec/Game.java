@@ -31,7 +31,7 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
 
     public Terrain myTerrain;
     private boolean showLines = false;
-    private static double angle;
+    private static double angle = 45;
     private static double angleIncrement = 30;
     private static double[] location = {0,0};   //{x,z}
     private static double speed = 1;
@@ -42,8 +42,8 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     public static boolean other[] = new boolean[256];
     public AvatorControlKey AvatorKey = new AvatorControlKey();
     
-    private final double cameraDistance = 1;
-    private final double cameraHeight = 0.5;
+    private final double cameraDistance = 2;
+    private final double cameraHeight = 1;
     private boolean isFP = false;
     
     private int stacks = 20;
@@ -92,10 +92,10 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     
     public void setAvator(double dt){
     	if (AvatorKey.turnLeft.isPressing){
-    		angle -= angleIncrement * dt;
+    		angle += angleIncrement * dt;
     	}
     	if (AvatorKey.turnRight.isPressing){
-    		angle += angleIncrement * dt;
+    		angle -= angleIncrement * dt;
     	}
     	if (AvatorKey.forward.isPressing){
     		location[0] = Math.max(0,Math.min(myTerrain.size().width-1, location[0] + Math.sin(Math.toRadians(angle)) * speed * dt));
@@ -120,6 +120,8 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     }
     
     public void setCamera(GL2 gl){
+    	//gl.glMatrixMode(GL2.GL_MODELVIEW);
+    	//gl.glLoadIdentity();
     	if (!isFP){
     		//gl.glTranslated(-Math.sin(Math.toRadians(angle)) * this.cameraDistance, -cameraHeight , -Math.sin(Math.toRadians(angle)));
     		//gl.glTranslated(0, 0, 0.5);
@@ -127,14 +129,18 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     		//gl.glRotated(-angle, 0, 1, 0);
     		//gl.glTranslated(-AvatorPosition[0], -AvatorPosition[1], -AvatorPosition[2]);
     		
-    		double[] p = {AvatorPosition[0] + Math.sin(Math.toRadians(angle)),AvatorPosition[2] + Math.cos(Math.toRadians(angle))};
+    		double[] p = {AvatorPosition[0] - Math.sin(Math.toRadians(angle))*cameraDistance,AvatorPosition[2] - Math.cos(Math.toRadians(angle))*cameraDistance};
     		
     		GLU glu = new GLU();
-    		glu.gluLookAt(p[0], AvatorPosition[1] + cameraHeight, p[1], 1, AvatorPosition[0], AvatorPosition[1], AvatorPosition[2], 1, 0); 
+    		glu.gluLookAt(p[0], AvatorPosition[1] + cameraHeight, p[1], AvatorPosition[0], AvatorPosition[1], AvatorPosition[2], 0, 1, 0); 
     	} else {
-    		gl.glTranslated(0, -2, -1);
-    		gl.glRotated(-angle, 0, 1, 0);
-    		gl.glTranslated(-AvatorPosition[0], -AvatorPosition[1], -AvatorPosition[2]);
+    		//gl.glTranslated(0, -2, -1);
+    		//gl.glRotated(-angle, 0, 1, 0);
+    		//gl.glTranslated(-AvatorPosition[0], -AvatorPosition[1], -AvatorPosition[2]);
+    		
+    		double[] p = {AvatorPosition[0] + Math.sin(Math.toRadians(angle))*cameraDistance,AvatorPosition[2] + Math.cos(Math.toRadians(angle))*cameraDistance};
+    		GLU glu = new GLU();
+    		glu.gluLookAt(AvatorPosition[0], AvatorPosition[1]+0.5, AvatorPosition[2], p[0], AvatorPosition[1]+0.5, p[1], 0, 1, 0); 
     	}
     }
     
@@ -203,16 +209,16 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     			z2= radius * MathUtil.sphereR(t+deltaT)*Math.sin((double)ang*2.0*Math.PI/360.0);  
     			y2 = radius * MathUtil.sphereGetY(t+deltaT);
 
-    			double normal[] = {-x1,-y1,-z1};
+    			double normal[] = {x1,y1,z1};
 
 
     			MathUtil.normalise(normal);    
 
     			gl.glNormal3dv(normal,0);         
     			gl.glVertex3d(x1,y1,z1);
-    			normal[0] = -x2;
-    			normal[1] = -y2;
-    			normal[2] = -z2;
+    			normal[0] = x2;
+    			normal[1] = y2;
+    			normal[2] = z2;
 
     			MathUtil.normalise(normal);    
     			gl.glNormal3dv(normal,0); 
@@ -252,7 +258,7 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
 		gl.glMatrixMode(GL2.GL_PROJECTION);
     	gl.glLoadIdentity();
     	//glu.gluPerspective(60,1,1,20);
-    	//gl.glFrustum(-2,2,-2,2,1,20);
+    	gl.glFrustum(-0.2,0.2,-0.2,0.2,0.1,2);
 		
 	}
 	

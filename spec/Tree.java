@@ -51,16 +51,16 @@ public class Tree {
     			z2= radius * MathUtil.sphereR(t+deltaT)*Math.sin((double)ang*2.0*Math.PI/360.0);  
     			y2 = radius * MathUtil.sphereGetY(t+deltaT);
 
-    			double normal[] = {-x1,-y1,-z1};
+    			double normal[] = {x1,y1,z1};
 
 
     			MathUtil.normalise(normal);    
 
     			gl.glNormal3dv(normal,0);         
     			gl.glVertex3d(x1,y1,z1);
-    			normal[0] = -x2;
-    			normal[1] = -y2;
-    			normal[2] = -z2;
+    			normal[0] = x2;
+    			normal[1] = y2;
+    			normal[2] = z2;
 
     			MathUtil.normalise(normal);    
     			gl.glNormal3dv(normal,0); 
@@ -88,7 +88,7 @@ public class Tree {
         		double[] p1 = {x1,0,z1};
         		double[] p2 = {x2,0,z2};
         		double[] p3 = {x2,height,z2};
-        		double[] n = MathUtil.getNormal(p1, p2, p3);
+        		double[] n = MathUtil.getNormal(p3, p2, p1);
     			n = MathUtil.normalise(n);
     			gl.glNormal3d(n[0],n[1],n[2]);
         		gl.glVertex3d(x1, 0, z1);
