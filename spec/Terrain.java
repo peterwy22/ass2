@@ -228,6 +228,11 @@ public class Terrain {
     		//System.out.println(i);
     	}
     	
+    	for (int i = 0; i < myRoads.size(); i++){
+    		myRoads.get(i).draw(gl,this);
+    		//System.out.println(i);
+    	}
+    	
     }
 
 
