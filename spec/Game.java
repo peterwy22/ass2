@@ -121,11 +121,16 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     
     public void setCamera(GL2 gl){
     	if (!isFP){
-    	//gl.glTranslated(-Math.sin(Math.toRadians(angle)) * this.cameraDistance, -cameraHeight , -Math.sin(Math.toRadians(angle)));
-    		gl.glTranslated(0, 0, 0.5);
-    		gl.glRotated(Math.toDegrees(-Math.atan2(cameraHeight,cameraDistance)), 1, 0, 0);
-    		gl.glRotated(-angle, 0, 1, 0);
-    		gl.glTranslated(-AvatorPosition[0], -AvatorPosition[1], -AvatorPosition[2]);
+    		//gl.glTranslated(-Math.sin(Math.toRadians(angle)) * this.cameraDistance, -cameraHeight , -Math.sin(Math.toRadians(angle)));
+    		//gl.glTranslated(0, 0, 0.5);
+    		//gl.glRotated(Math.toDegrees(-Math.atan2(cameraHeight,cameraDistance)), 1, 0, 0);
+    		//gl.glRotated(-angle, 0, 1, 0);
+    		//gl.glTranslated(-AvatorPosition[0], -AvatorPosition[1], -AvatorPosition[2]);
+    		
+    		double[] p = {AvatorPosition[0] + Math.sin(Math.toRadians(angle)),AvatorPosition[2] + Math.cos(Math.toRadians(angle))};
+    		
+    		GLU glu = new GLU();
+    		glu.gluLookAt(p[0], AvatorPosition[1] + cameraHeight, p[1], 1, AvatorPosition[0], AvatorPosition[1], AvatorPosition[2], 1, 0); 
     	} else {
     		gl.glTranslated(0, -2, -1);
     		gl.glRotated(-angle, 0, 1, 0);
@@ -143,14 +148,16 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
         myTime = time;
         
 		GL2 gl = drawable.getGL().getGL2();
+		gl.glClearColor(0.3f ,0.3f, 0.3f, 1);
+    	gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
     	gl.glLoadIdentity();
     	//gl.glScaled(0.1, 0.1, 0.1);
-    	gl.glClearColor(0.3f ,0.3f, 0.3f, 1);
-    	gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
     	//gl.glRotated(60, 1, 0, 0);
     	//gl.glRotated(180, 0, 1, 0);
     	gl.glScaled(0.5, 0.5, 0.5);
+    	
+    	
     	setAvator(dt);
     	setCamera(gl);
     	myTerrain.draw(gl);
@@ -228,7 +235,7 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
 		setAvatorKeys(KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_F);
 		GL2 gl = drawable.getGL().getGL2();
     	gl.glEnable(GL2.GL_DEPTH_TEST);
-    	gl.glEnable(GL2.GL_PERSPECTIVE_CORRECTION_HINT);
+    	//gl.glEnable(GL2.GL_PERSPECTIVE_CORRECTION_HINT);
     	//gl.glEnable(GL2.GL_CULL_FACE);
     	//gl.glCullFace(GL2.GL_BACK);
     	gl.glEnable(GL2.GL_LIGHTING);
@@ -241,7 +248,11 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
 			int height) {
-		// TODO Auto-generated method stub
+		GL2 gl = drawable.getGL().getGL2();
+		gl.glMatrixMode(GL2.GL_PROJECTION);
+    	gl.glLoadIdentity();
+    	//glu.gluPerspective(60,1,1,20);
+    	//gl.glFrustum(-2,2,-2,2,1,20);
 		
 	}
 	
