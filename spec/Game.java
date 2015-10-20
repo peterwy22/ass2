@@ -172,6 +172,9 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     	
     	setAvator(dt);
     	setCamera(gl);
+    	setSun(gl);
+
+    	
     	myTerrain.draw(gl);
     	if (!isFP){
     		drawAvator(gl, AvatorPosition);
@@ -189,6 +192,15 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     	
     	//gl.glColor4d(1,1,1,1);
 		
+	}
+	
+	public void setSun(GL2 gl){
+		float[] sun = new float[4];
+    	sun[0] = (float) myTerrain.getSunlight()[0];
+    	sun[1] = (float) myTerrain.getSunlight()[1];
+    	sun[2] = (float) myTerrain.getSunlight()[2];
+    	sun[3] = 0;	
+    	gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, sun,0);
 	}
 	
 	public void drawAvator(GL2 gl,double[] location){

@@ -186,7 +186,9 @@ public class Terrain {
     	//System.out.print(p1[0] + ","+p1[1]+","+p1[2]+"|");
     	//System.out.print(p2[0] + ","+p2[1]+","+p2[2]+"|");
     	//System.out.println(p3[0] + ","+p3[1]+","+p3[2]+"|");
-    	gl.glColor4d(colour[0], colour[1],colour[2],colour[3]);
+    	if (colour != null){
+    		gl.glColor4d(colour[0], colour[1],colour[2],colour[3]);
+    	}
     	gl.glBindTexture(GL2.GL_TEXTURE_2D, myTextures.getTextureId());
 		gl.glBegin(GL2.GL_TRIANGLES);
 		{	
@@ -224,19 +226,26 @@ public class Terrain {
     
     public void draw(GL2 gl){
     	myTextures = new MyTexture(gl, textureFileName0, textureExt0, true);
-    	gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_REPLACE);
+    	
+    	
+    	
+    	
+    	//gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_REPLACE);
+    	
+
+    	
     	for (int x = 0; x < mySize.width - 1; x++){
     		for (int z = 0; z < mySize.height - 1; z++){
     			//System.out.println(this.myTerrain.altitude(x, z));
     			double[] p3 = {x,getGridAltitude(x, z),z};
     			double[] p2 = {x+1,getGridAltitude(x+1, z),z};
     			double[] p1 = {x,getGridAltitude(x, z+1),z+1};
-    			drawTriangle(p1, p2, p3, green, gl);
+    			drawTriangle(p1, p2, p3, null, gl);
     			
     			double[] p6 = {x,getGridAltitude(x, z+1),z+1};
     			double[] p5 = {x+1,getGridAltitude(x+1, z),z};
     			double[] p4 = {x+1,getGridAltitude(x+1, z+1),z+1};
-    			drawTriangle(p4, p5, p6, green, gl);
+    			drawTriangle(p4, p5, p6, null, gl);
     		}
     	}
     	

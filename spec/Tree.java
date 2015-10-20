@@ -33,8 +33,23 @@ public class Tree {
     	int ang;  
     	int delang = 360/slices;
     	double x1,x2,z1,z2,y1,y2;
+    	
+    	float matAmbAndDif[] = {1.0f, 0.0f, 0.0f, 1.0f};
+        float matSpec[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+        float matShine[] = { 50.0f };
+        float emm[] = {0.0f, 0.0f, 0.0f, 1.0f};
+        // Material properties of sphere.
+        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT_AND_DIFFUSE, matAmbAndDif,0);
+        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, matSpec,0);
+        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SHININESS, matShine,0);
+        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, emm,0);
+    	
+    	
     	gl.glPushMatrix();
     	gl.glTranslated(0, height, 0);
+    	
+    	
+    	
     	for (int i = 0; i < stacks; i++) 
     	{ 
     		double t = -0.25 + i*deltaT;
