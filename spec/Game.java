@@ -50,6 +50,8 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     private int slices = 10;
     private double radius = 0.1;
     
+    private float specular = 0.6f;
+    
     // Pictures for the texture
     // texture0 grass for the Terrain
     //private String textureFileName0 = "src/grass.bmp";
@@ -106,10 +108,12 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     	if (AvatorKey.forward.isPressing){
     		location[0] = Math.max(0,Math.min(myTerrain.size().width-1, location[0] + Math.sin(Math.toRadians(angle)) * speed * dt));
     		location[1] = Math.max(0,Math.min(myTerrain.size().height-1, location[1] + Math.cos(Math.toRadians(angle)) * speed * dt));
+    		//specular = Math.max(1f,specular+0.1f);
     	}
     	if (AvatorKey.backward.isPressing){
     		location[0] = Math.max(0,Math.min(myTerrain.size().width-1, location[0] - Math.sin(Math.toRadians(angle)) * speed * dt));
     		location[1] = Math.max(0,Math.min(myTerrain.size().height-1, location[1] - Math.cos(Math.toRadians(angle)) * speed * dt));
+    		//specular = Math.min(0f,specular-0.1f);
     	}
     	
     	AvatorPosition[0] = location[0];
@@ -160,7 +164,7 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
         myTime = time;
         
 		GL2 gl = drawable.getGL().getGL2();
-		gl.glClearColor(0.3f ,0.3f, 0.3f, 1);
+		gl.glClearColor(0.6f ,0.9f, 0.99f, 1);
     	gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
     	gl.glLoadIdentity();
@@ -174,7 +178,6 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     	setCamera(gl);
     	setSun(gl);
 
-    	
     	myTerrain.draw(gl);
     	if (!isFP){
     		drawAvator(gl, AvatorPosition);
@@ -195,12 +198,26 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
 	}
 	
 	public void setSun(GL2 gl){
+		gl.glShadeModel(GL2.GL_SMOOTH);
 		float[] sun = new float[4];
     	sun[0] = (float) myTerrain.getSunlight()[0];
     	sun[1] = (float) myTerrain.getSunlight()[1];
     	sun[2] = (float) myTerrain.getSunlight()[2];
     	sun[3] = 0;	
-    	gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, sun,0);
+    	gl.glMatrixMode(GL2.GL_MODELVIEW);
+        gl.glPushMatrix();
+
+        gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, sun,0);
+        gl.glPopMatrix();
+        
+        // set the intensities
+
+        float[] s = new float[4];
+        s[0] = s[1] = s[2] = specular;
+        s[3] = 1.0f;
+        gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_SPECULAR, s, 0);
+        
+        gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_MODULATE);
 	}
 	
 	public void drawAvator(GL2 gl,double[] location){
@@ -267,7 +284,6 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     	gl.glEnable(GL2.GL_NORMALIZE);
     	
     	// Specify how texture values combine with current surface color values
-    	gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_REPLACE);
     	// Turn on OpenGL texturing
     	gl.glEnable(GL2.GL_TEXTURE_2D);
     	

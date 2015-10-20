@@ -199,14 +199,12 @@ public class Terrain {
     	//System.out.print(p1[0] + ","+p1[1]+","+p1[2]+"|");
     	//System.out.print(p2[0] + ","+p2[1]+","+p2[2]+"|");
     	//System.out.println(p3[0] + ","+p3[1]+","+p3[2]+"|");
-    	if (colour != null){
-    		gl.glColor4d(colour[0], colour[1],colour[2],colour[3]);
-    	}
+    	
     	gl.glBindTexture(GL2.GL_TEXTURE_2D, myTerrainTexture.getTextureId());
 		gl.glBegin(GL2.GL_TRIANGLES);
 		{	
 			//I add textures amoung every vertex
-			
+			gl.glColor4d(1,1,1,1);
 			double[] n = MathUtil.getNormal(p1, p2, p3);
 			n = MathUtil.normalise(n);
 			//System.out.println(n[1]);
@@ -238,13 +236,6 @@ public class Terrain {
 	}
     
     public void draw(GL2 gl){
-    	
-    	
-    	
-    	
-    	gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_REPLACE);
-    	
-
     	
     	for (int x = 0; x < mySize.width - 1; x++){
     		for (int z = 0; z < mySize.height - 1; z++){
