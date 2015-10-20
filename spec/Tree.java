@@ -16,6 +16,15 @@ public class Tree {
     private double trunkRadius = 0.1;
     private double height = 1;
     private static final int NUM_OF_SLICES = 32;
+    
+    //Textures
+    private String textureFileName1 = "src/ass2/green.jpg";
+    private String textureFileName2 = "src/ass2/wood.jpg";
+    private String textureExt1 = "jpg";
+    private String textureExt2 = "jpg";
+    private MyTexture myTextures[];
+    
+    
     public Tree(double x, double y, double z) {
         myPos = new double[3];
         myPos[0] = x;
@@ -56,7 +65,10 @@ public class Tree {
 
     			MathUtil.normalise(normal);    
 
-    			gl.glNormal3dv(normal,0);         
+    			gl.glNormal3dv(normal,0);
+    			double tCoord = 1.0/stacks * i;
+    			double sCoord = 1.0/slices * j;
+    			gl.glTexCoord2d(sCoord, tCoord);
     			gl.glVertex3d(x1,y1,z1);
     			normal[0] = x2;
     			normal[1] = y2;
@@ -64,6 +76,8 @@ public class Tree {
 
     			MathUtil.normalise(normal);    
     			gl.glNormal3dv(normal,0); 
+    			tCoord = 1.0/stacks * (i+1);
+    			gl.glTexCoord2d(sCoord, tCoord);
     			gl.glVertex3d(x2,y2,z2); 
     		}; 
     		gl.glEnd();
@@ -72,6 +86,7 @@ public class Tree {
     }
     
     public void drawTrunk(GL2 gl){
+    	
     	gl.glBegin(GL2.GL_QUADS);
 		{	
         	double angle = 0;
@@ -91,9 +106,13 @@ public class Tree {
         		double[] n = MathUtil.getNormal(p3, p2, p1);
     			n = MathUtil.normalise(n);
     			gl.glNormal3d(n[0],n[1],n[2]);
+    			gl.glTexCoord2d(i/NUM_OF_SLICES, 0.0);
         		gl.glVertex3d(x1, 0, z1);
+        		gl.glTexCoord2d((i+1)/NUM_OF_SLICES, 0.0);
         		gl.glVertex3d(x2, 0, z2);
+        		gl.glTexCoord2d(i/NUM_OF_SLICES, 1.0);
         		gl.glVertex3d(x2, height, z2);
+        		gl.glTexCoord2d((i+1)/NUM_OF_SLICES, 1.0);
         		gl.glVertex3d(x1, height, z1);
         
         	} 
@@ -105,7 +124,12 @@ public class Tree {
     	gl.glMatrixMode(GL2.GL_MODELVIEW);
     	gl.glPushMatrix();
     	gl.glTranslated(myPos[0], myPos[1], myPos[2]);
+    	myTextures = new MyTexture[2];
+    	myTextures[0] = new MyTexture(gl, textureFileName1, textureExt1, true);
+    	gl.glBindTexture(GL2.GL_TEXTURE_2D, myTextures[0].getTextureId());
     	drawLeaf(gl);
+    	myTextures[1] = new MyTexture(gl, textureFileName2, textureExt2, true);
+    	gl.glBindTexture(GL2.GL_TEXTURE_2D, myTextures[1].getTextureId());
     	drawTrunk(gl);
     	gl.glPopMatrix();
     }

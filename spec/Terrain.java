@@ -224,7 +224,7 @@ public class Terrain {
     
     public void draw(GL2 gl){
     	myTextures = new MyTexture(gl, textureFileName0, textureExt0, true);
-    	gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_REPLACE);
+    	
     	for (int x = 0; x < mySize.width - 1; x++){
     		for (int z = 0; z < mySize.height - 1; z++){
     			//System.out.println(this.myTerrain.altitude(x, z));
