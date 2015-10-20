@@ -33,7 +33,7 @@ public class Terrain {
     //Member of Textures
     private String textureFileName0 = "src/ass2/grass.bmp";
     private String textureExt0 = "bmp";
-    private MyTexture myTextures;
+    private MyTexture myTextures = new MyTexture(textureFileName0, textureExt0, true);
     
     
 
@@ -225,12 +225,12 @@ public class Terrain {
 	}
     
     public void draw(GL2 gl){
-    	myTextures = new MyTexture(gl, textureFileName0, textureExt0, true);
+    	myTextures.setImage(gl);
     	
     	
     	
     	
-    	gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_REPLACE);
+    	//gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_REPLACE);
     	
 
     	

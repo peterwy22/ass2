@@ -19,6 +19,7 @@ import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 public class MyTexture {
 
 	private boolean mipMapEnabled = true;
+	TextureData data = null;
 	
 	
 	private int[] textureID = new int[1];
@@ -26,9 +27,8 @@ public class MyTexture {
 		
 	//Create a texture from a file. Make sure the file has a width and height
 	//that is a power of 2
-	public MyTexture(GL2 gl, String fileName,String extension,boolean mipmaps) {
+	public MyTexture( String fileName,String extension,boolean mipmaps) {
 		mipMapEnabled = mipmaps;
-		TextureData data = null;
 		try {
 			 File file = new File(fileName);
 			 BufferedImage img = ImageIO.read(file); // read file into BufferedImage
@@ -45,7 +45,11 @@ public class MyTexture {
             exc.printStackTrace();
             System.exit(1);
         }
+     
 		
+	}
+	
+	public void setImage(GL2 gl){
 		gl.glGenTextures(1, textureID, 0);
 		//The first time bind is called with the given id,
 		//an openGL texture object is created and bound to the id
@@ -63,7 +67,6 @@ public class MyTexture {
         				data.getBuffer());
 		
         setFilters(gl);
-		
 	}
 	
     private void setFilters(GL2 gl){
