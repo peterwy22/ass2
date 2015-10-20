@@ -31,7 +31,7 @@ public class Terrain {
     private boolean showLines = false;
     
     //Member of Textures
-    private String textureFileName0 = "src/grass.bmp";
+    private String textureFileName0 = "src/ass2/grass.bmp";
     private String textureExt0 = "bmp";
     private MyTexture myTextures;
     
