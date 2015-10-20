@@ -17,12 +17,6 @@ public class Tree {
     private double height = 1;
     private static final int NUM_OF_SLICES = 32;
     
-    //Textures
-    private String textureFileName1 = "src/ass2/green.jpg";
-    private String textureFileName2 = "src/ass2/wood.jpg";
-    private String textureExt1 = "jpg";
-    private String textureExt2 = "jpg";
-    private MyTexture myTextures[];
     
     
     public Tree(double x, double y, double z) {
@@ -135,15 +129,13 @@ public class Tree {
     	gl.glEnd();
     }
     
-    public void draw(GL2 gl){
+    public void draw(GL2 gl, MyTexture[] myTextures){
     	gl.glMatrixMode(GL2.GL_MODELVIEW);
     	gl.glPushMatrix();
     	gl.glTranslated(myPos[0], myPos[1], myPos[2]);
-    	myTextures = new MyTexture[2];
-    	myTextures[0] = new MyTexture(gl, textureFileName1, textureExt1, true);
+    	
     	gl.glBindTexture(GL2.GL_TEXTURE_2D, myTextures[0].getTextureId());
     	drawLeaf(gl);
-    	myTextures[1] = new MyTexture(gl, textureFileName2, textureExt2, true);
     	gl.glBindTexture(GL2.GL_TEXTURE_2D, myTextures[1].getTextureId());
     	drawTrunk(gl);
     	gl.glPopMatrix();

@@ -33,7 +33,13 @@ public class Terrain {
     //Member of Textures
     private String textureFileName0 = "src/ass2/grass.bmp";
     private String textureExt0 = "bmp";
-    private MyTexture myTextures;
+    private MyTexture myTerrainTexture;
+    
+    private String textureFileName1 = "src/ass2/green.jpg";
+    private String textureFileName2 = "src/ass2/wood.jpg";
+    private String textureExt1 = "jpg";
+    private String textureExt2 = "jpg";
+    private MyTexture myTreeTextures[];
     
     
 
@@ -49,6 +55,13 @@ public class Terrain {
         myTrees = new ArrayList<Tree>();
         myRoads = new ArrayList<Road>();
         mySunlight = new float[3];
+    }
+    
+    public void init(GL2 gl){
+    	myTerrainTexture = new MyTexture(gl, textureFileName0, textureExt0, true);
+    	myTreeTextures = new MyTexture[2];
+    	myTreeTextures[0] = new MyTexture(gl, textureFileName1, textureExt1, true);
+    	myTreeTextures[1] = new MyTexture(gl, textureFileName2, textureExt2, true);
     }
     
     public Terrain(Dimension size) {
@@ -189,7 +202,7 @@ public class Terrain {
     	if (colour != null){
     		gl.glColor4d(colour[0], colour[1],colour[2],colour[3]);
     	}
-    	gl.glBindTexture(GL2.GL_TEXTURE_2D, myTextures.getTextureId());
+    	gl.glBindTexture(GL2.GL_TEXTURE_2D, myTerrainTexture.getTextureId());
 		gl.glBegin(GL2.GL_TRIANGLES);
 		{	
 			//I add textures amoung every vertex
@@ -225,7 +238,6 @@ public class Terrain {
 	}
     
     public void draw(GL2 gl){
-    	myTextures = new MyTexture(gl, textureFileName0, textureExt0, true);
     	
     	
     	
@@ -250,7 +262,7 @@ public class Terrain {
     	}
     	
     	for (int i = 0; i < myTrees.size(); i++){
-    		myTrees.get(i).draw(gl);
+    		myTrees.get(i).draw(gl,myTreeTextures);
     		//System.out.println(i);
     	}
     	

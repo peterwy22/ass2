@@ -191,7 +191,7 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     	*/
     	
     	//gl.glColor4d(1,1,1,1);
-		
+		System.out.println("fps: "+ 1/dt);
 	}
 	
 	public void setSun(GL2 gl){
@@ -275,6 +275,8 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     	
     	
     	myTime = System.currentTimeMillis();
+    	
+    	myTerrain.init(gl);
 		
 	}
 
