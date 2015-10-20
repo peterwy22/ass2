@@ -191,8 +191,6 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     	*/
     	
     	//gl.glColor4d(1,1,1,1);
-    	
-    	System.out.println("fps: " + 1/dt);
 		
 	}
 	
