@@ -266,6 +266,8 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     	gl.glEnable(GL2.GL_LIGHT0); 
     	gl.glEnable(GL2.GL_NORMALIZE);
     	
+    	// Specify how texture values combine with current surface color values
+    	gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_REPLACE);
     	// Turn on OpenGL texturing
     	gl.glEnable(GL2.GL_TEXTURE_2D);
     	
