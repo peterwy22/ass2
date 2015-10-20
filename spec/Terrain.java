@@ -1,7 +1,6 @@
 package ass2.spec;
 
 import java.awt.Dimension;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -30,6 +29,13 @@ public class Terrain {
     private float[] mySunlight;
     private double[] green = {0,1,0,1};
     private boolean showLines = false;
+    
+    //Member of Textures
+    private String textureFileName0 = "src/grass.bmp";
+    private String textureExt0 = "bmp";
+    private MyTexture myTextures;
+    
+    
 
     /**
      * Create a new terrain
@@ -181,15 +187,23 @@ public class Terrain {
     	//System.out.print(p2[0] + ","+p2[1]+","+p2[2]+"|");
     	//System.out.println(p3[0] + ","+p3[1]+","+p3[2]+"|");
     	gl.glColor4d(colour[0], colour[1],colour[2],colour[3]);
+    	gl.glBindTexture(GL2.GL_TEXTURE_2D, myTextures.getTextureId());
 		gl.glBegin(GL2.GL_TRIANGLES);
 		{	
+			//I add textures amoung every vertex
+			
 			double[] n = MathUtil.getNormal(p1, p2, p3);
 			n = MathUtil.normalise(n);
 			//System.out.println(n[1]);
 			gl.glNormal3d(n[0],n[1],n[2]);
+			gl.glTexCoord2d(0.0, 0.0);
             gl.glVertex3d(p1[0], p1[1], p1[2]);
+            gl.glTexCoord2d(1.0, 0.0);
             gl.glVertex3d(p2[0], p2[1], p2[2]);
+            gl.glTexCoord2d(0.5, 1.0);
             gl.glVertex3d(p3[0], p3[1], p3[2]);
+            
+            
            
         }
         gl.glEnd();
@@ -209,6 +223,8 @@ public class Terrain {
 	}
     
     public void draw(GL2 gl){
+    	myTextures = new MyTexture(gl, textureFileName0, textureExt0, true);
+    	gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_REPLACE);
     	for (int x = 0; x < mySize.width - 1; x++){
     		for (int z = 0; z < mySize.height - 1; z++){
     			//System.out.println(this.myTerrain.altitude(x, z));

@@ -49,6 +49,12 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     private int stacks = 20;
     private int slices = 10;
     private double radius = 0.1;
+    
+    // Pictures for the texture
+    // texture0 grass for the Terrain
+    //private String textureFileName0 = "src/grass.bmp";
+    //private String textureExt0 = "bmp";
+    //public MyTexture myTextures[];
 
     public Game(Terrain terrain) {
     	super("Assignment 2");
@@ -247,6 +253,13 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     	gl.glEnable(GL2.GL_LIGHTING);
     	gl.glEnable(GL2.GL_LIGHT0); 
     	gl.glEnable(GL2.GL_NORMALIZE);
+    	
+    	// Turn on OpenGL texturing
+    	gl.glEnable(GL2.GL_TEXTURE_2D);
+    	
+    	//Load the textures from files
+    	
+    	
     	myTime = System.currentTimeMillis();
 		
 	}
