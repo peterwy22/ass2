@@ -42,8 +42,8 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     public static boolean other[] = new boolean[256];
     public AvatorControlKey AvatorKey = new AvatorControlKey();
     
-    private final double cameraDistance = 2;
-    private final double cameraHeight = 1;
+    private final double cameraDistance = 1;
+    private final double cameraHeight = 0.5;
     private boolean isFP = false;
     
     private int stacks = 20;
@@ -303,7 +303,7 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
 		gl.glMatrixMode(GL2.GL_PROJECTION);
     	gl.glLoadIdentity();
     	//glu.gluPerspective(60,1,1,20);
-    	gl.glFrustum(-0.2,0.2,-0.2,0.2,0.1,2);
+    	gl.glFrustum(-0.2,0.2,-0.2,0.2,0.1,3);
 		
 	}
 	
