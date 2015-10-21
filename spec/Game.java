@@ -52,6 +52,7 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     
     private float specular = 0.6f;
     
+    
     // Pictures for the texture
     // texture0 grass for the Terrain
     //private String textureFileName0 = "src/grass.bmp";
@@ -302,8 +303,9 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
 		GL2 gl = drawable.getGL().getGL2();
 		gl.glMatrixMode(GL2.GL_PROJECTION);
     	gl.glLoadIdentity();
-    	//glu.gluPerspective(60,1,1,20);
-    	gl.glFrustum(-0.2,0.2,-0.2,0.2,0.1,3);
+    	GLU glu = new GLU();
+    	glu.gluPerspective(60,1,0.1,20);
+    	//gl.glFrustum(-0.2,0.2,-0.2,0.2,0.1,3);
 		
 	}
 	

@@ -47,6 +47,11 @@ public class Terrain {
     private MyTexture myRoadTexture;
     
     
+    private double dayLength = 60;
+    private double currentTime;
+    private double currentTimeInSec;
+    private double[] midPoint;
+    
 
     /**
      * Create a new terrain
@@ -69,6 +74,8 @@ public class Terrain {
     	myTreeTextures[0] = new MyTexture(gl, textureFileName1, textureExt1, true);
     	myTreeTextures[1] = new MyTexture(gl, textureFileName2, textureExt2, true);
     	myRoadTexture = new MyTexture(gl, textureFileName3, textureExt3, true);
+    	
+    	currentTimeInSec = System.currentTimeMillis() / 1000.00;
     }
     
     public Terrain(Dimension size) {
