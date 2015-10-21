@@ -53,6 +53,10 @@ public class Terrain {
     private double sunAngle;
     private double[] sunVector;
     private double sunDistance;
+    private float[] sunColor;
+    private float[] sunSetColor = {253,125,1};
+    private float[] middayColor = {255,255,255};
+    private float[] sunAmb = {0.3f,0.3f,0.3f,1f};
     
 
     /**
@@ -69,6 +73,8 @@ public class Terrain {
         myRoads = new ArrayList<Road>();
         mySunlight = new float[3];
         
+        sunColor = new float[4];
+        sunColor[3] = 1f;
         midPoint = new double[3];
         midPoint[0] = (-1.0 + width)/2;
         midPoint[1] = 0;
@@ -104,6 +110,28 @@ public class Terrain {
     		currentTime = 6;
     	}
     	updateSunPos();
+    	updateSunColor();
+    }
+    
+    public float[] getSunColor(){
+    	return sunColor;
+    }
+    
+    public float[] getSunAmb(){
+    	return sunAmb;
+    }
+    
+    public void updateSunColor(){
+    	float r = sunSetColor[0] - middayColor[0];
+    	float g = sunSetColor[1] - middayColor[1];
+    	float b = sunSetColor[2] - middayColor[2];
+    	
+    	float ratio = (float) (Math.abs(currentTime - 12f) / 6f);
+    	
+    	
+    	sunColor[0] = (middayColor[0] + r*ratio)/255f;
+    	sunColor[1] = (middayColor[1] + g*ratio)/255f;
+    	sunColor[2] = (middayColor[2] + b*ratio)/255f;
     }
     
     public void updateSunPos(){

@@ -206,10 +206,15 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     	sun[1] = (float) myTerrain.getSunlight()[1];
     	sun[2] = (float) myTerrain.getSunlight()[2];
     	sun[3] = 0;	
+    	
+    	float[] sunColor = myTerrain.getSunColor();
+    	float[] sunAmb = myTerrain.getSunAmb();
     	gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
-
-        gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, sun,0);
+        	gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_DIFFUSE, sunColor,0);
+        	gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_SPECULAR, sunColor,0);
+        	gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_AMBIENT, sunAmb,0);
+        	gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, sun,0);
         gl.glPopMatrix();
         
         // set the intensities
