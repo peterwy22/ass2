@@ -26,6 +26,7 @@ public class Terrain {
     private double[][] myAltitude;
     private List<Tree> myTrees;
     private List<Road> myRoads;
+    private List<Goblin> myGoblins;
     private float[] mySunlight;
     private double[] green = {0,1,0,1};
     private boolean showLines = false;
@@ -57,6 +58,7 @@ public class Terrain {
         mySize = new Dimension(width, depth);
         myAltitude = new double[width][depth];
         myTrees = new ArrayList<Tree>();
+        myGoblins = new ArrayList<Goblin>();
         myRoads = new ArrayList<Road>();
         mySunlight = new float[3];
     }
@@ -79,6 +81,10 @@ public class Terrain {
 
     public List<Tree> trees() {
         return myTrees;
+    }
+    
+    public List<Goblin> goblins() {
+        return myGoblins;
     }
 
     public List<Road> roads() {
@@ -184,6 +190,12 @@ public class Terrain {
         Tree tree = new Tree(x, y, z);
         myTrees.add(tree);
     }
+    
+    public void addGoblin(double x, double z) {
+        double y = altitude(x, z);
+        Goblin goblin = new Goblin(x, y, z);
+        myGoblins.add(goblin);
+    }
 
 
     /**
@@ -264,6 +276,11 @@ public class Terrain {
     	
     	for (int i = 0; i < myRoads.size(); i++){
     		myRoads.get(i).draw(gl,this,myRoadTexture);
+    		//System.out.println(i);
+    	}
+    	
+    	for (int i = 0; i < myGoblins.size(); i++){
+    		myGoblins.get(i).draw(gl);
     		//System.out.println(i);
     	}
     	

@@ -59,6 +59,16 @@ public class LevelIO {
             }
         }
         
+        if (jsonTerrain.has("goblins")) {
+            JSONArray jsonGoblins = jsonTerrain.getJSONArray("goblins");
+            for (int i = 0; i < jsonGoblins.length(); i++) {
+                JSONObject jsonTree = jsonGoblins.getJSONObject(i);
+                double x = jsonTree.getDouble("x");
+                double z = jsonTree.getDouble("z");
+                terrain.addGoblin(x, z);
+            }
+        }
+        
         if (jsonTerrain.has("roads")) {
             JSONArray jsonRoads = jsonTerrain.getJSONArray("roads");
             for (int i = 0; i < jsonRoads.length(); i++) {
@@ -114,6 +124,16 @@ public class LevelIO {
             trees.put(j);
         }
         json.put("trees", trees);
+        
+        JSONArray goblins = new JSONArray();
+        for (Goblin g : terrain.goblins()) {
+            JSONObject j = new JSONObject();
+            double[] position = g.getPosition();
+            j.put("x", position[0]);
+            j.put("z", position[2]);
+            trees.put(j);
+        }
+        json.put("goblins", goblins);
 
         JSONArray roads = new JSONArray();
         for (Road r : terrain.roads()) {
