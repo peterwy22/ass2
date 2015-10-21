@@ -41,6 +41,10 @@ public class Terrain {
     private String textureExt2 = "jpg";
     private MyTexture myTreeTextures[];
     
+    private String textureFileName3 = "src/ass2/road.jpg";
+    private String textureExt3 = "jpg";
+    private MyTexture myRoadTexture;
+    
     
 
     /**
@@ -62,6 +66,7 @@ public class Terrain {
     	myTreeTextures = new MyTexture[2];
     	myTreeTextures[0] = new MyTexture(gl, textureFileName1, textureExt1, true);
     	myTreeTextures[1] = new MyTexture(gl, textureFileName2, textureExt2, true);
+    	myRoadTexture = new MyTexture(gl, textureFileName3, textureExt3, true);
     }
     
     public Terrain(Dimension size) {
@@ -258,7 +263,7 @@ public class Terrain {
     	}
     	
     	for (int i = 0; i < myRoads.size(); i++){
-    		myRoads.get(i).draw(gl,this);
+    		myRoads.get(i).draw(gl,this,myRoadTexture);
     		//System.out.println(i);
     	}
     	

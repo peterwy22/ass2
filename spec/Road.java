@@ -96,9 +96,12 @@ public class Road {
         return p;
     }
     
-    public void draw(GL2 gl, Terrain terrain){
+    public void draw(GL2 gl, Terrain terrain, MyTexture texture){
     	gl.glPushMatrix();
     	gl.glTranslated(0, 0.05, 0);
+    	if (texture != null){
+    		gl.glBindTexture(GL2.GL_TEXTURE_2D, texture.getTextureId());
+    	}
     	for (int i = 0; i < size(); i++ ){
     		double[] prePoint = null;
     		for (int j = 0; j < NUM_OF_POINTS; j++){
@@ -168,9 +171,19 @@ public class Road {
     						rpf[0] = rightPreF[0] - mv[0]*expendRatio;
     						rpf[1] = rightPreF[1];
     						rpf[2] = rightPreF[2] - mv[1]*expendRatio;
+    						
+    						double[] rf = new double[3];
+    						rf[0] = rightF[0] + mv[0]*expendRatio;
+    						rf[1] = rightF[1];
+    						rf[2] = rightF[2] + mv[1]*expendRatio;
+    						
+    						double[] mr = new double[3];
+    						mr[0] = middleRight[0] + mv[0]*expendRatio;
+    						mr[1] = middleRight[1];
+    						mr[2] = middleRight[2] + mv[1]*expendRatio;
     					
-    						drawTriangle(middlePreRight,rightPreF ,rightF, null, gl);
-    						drawTriangle(rightF,middleRight, middlePreRight, null, gl);
+    						drawTriangle(mpr,rpf ,rf, null, gl);
+    						drawTriangle(rf,mr, mpr, null, gl);
     					gl.glPopMatrix();
     					
     					
