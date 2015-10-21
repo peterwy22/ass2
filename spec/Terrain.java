@@ -47,10 +47,12 @@ public class Terrain {
     private MyTexture myRoadTexture;
     
     
-    private double dayLength = 60;
+    private double dayLength = 30;
     private double currentTime;
-    private double currentTimeInSec;
     private double[] midPoint;
+    private double sunAngle;
+    private double[] sunVector;
+    private double sunDistance;
     
 
     /**
@@ -66,6 +68,11 @@ public class Terrain {
         myGoblins = new ArrayList<Goblin>();
         myRoads = new ArrayList<Road>();
         mySunlight = new float[3];
+        
+        midPoint = new double[3];
+        midPoint[0] = (-1.0 + width)/2;
+        midPoint[1] = 0;
+        midPoint[2] = (-1.0 + depth)/2;
     }
     
     public void init(GL2 gl){
@@ -75,7 +82,36 @@ public class Terrain {
     	myTreeTextures[1] = new MyTexture(gl, textureFileName2, textureExt2, true);
     	myRoadTexture = new MyTexture(gl, textureFileName3, textureExt3, true);
     	
-    	currentTimeInSec = System.currentTimeMillis() / 1000.00;
+    	sunVector = new double[3];
+    	sunVector[0] = - midPoint[0] + mySunlight[0];
+    	sunVector[1] = 0;
+    	sunVector[2] = - midPoint[1] + mySunlight[2];
+    	
+    	sunDistance = Math.sqrt(sunVector[0]*sunVector[0] + sunVector[2]*sunVector[2]);
+    	
+    	sunVector = MathUtil.normalise(sunVector);
+    	
+    	sunAngle = Math.toDegrees(Math.atan2(mySunlight[1], sunDistance));
+    	//System.out.println(sunAngle);
+    	currentTime = 24.0 * sunAngle/360 + 6;
+
+    }
+    
+    public void updateTime(double dt){
+    	currentTime = Math.max(6,Math.min( 18 , currentTime + dt/dayLength * 24));
+    	//System.out.println(currentTime);
+    	if (currentTime >= 18){
+    		currentTime = 6;
+    	}
+    	updateSunPos();
+    }
+    
+    public void updateSunPos(){
+    	sunAngle = (currentTime - 6) / 24 * 360;
+    	double d = Math.cos(Math.toRadians(sunAngle)) * sunDistance;
+    	mySunlight[0] = (float) (sunVector[0] * d);
+    	mySunlight[1] = (float) Math.sin(Math.toRadians(sunAngle));
+    	mySunlight[2] = (float) (sunVector[2] * d);
     }
     
     public Terrain(Dimension size) {
