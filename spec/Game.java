@@ -38,6 +38,8 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     private long myTime;
     private double[] AvatorPosition = {0,0,0};
     
+    private static String pathName = "src/ass2/";
+    
     public HashMap<Integer, Key> keyBindings = new HashMap<Integer, Key>();
     public static boolean other[] = new boolean[256];
     public AvatorControlKey AvatorKey = new AvatorControlKey();
@@ -94,7 +96,8 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
      * @throws FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException {
-        Terrain terrain = LevelIO.load(new File(args[0]));
+    	String path = pathName + args[0];
+        Terrain terrain = LevelIO.load(new File(path));
         Game game = new Game(terrain);
         game.run();
     }
