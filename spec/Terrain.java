@@ -51,6 +51,10 @@ public class Terrain {
     private String textureExt4 = "jpg";
     private MyTexture myPondTexture;
     
+//    private String textureFileName5 = "src/ass2/Half_Life.jpg";
+//    private String textureExt5 = "jpg";
+//    private MyTexture myGoblinTexture;
+    
     
     private double dayLength = 30;
     private double currentTime;
@@ -94,6 +98,7 @@ public class Terrain {
     	myTreeTextures[1] = new MyTexture(gl, textureFileName2, textureExt2, true);
     	myRoadTexture = new MyTexture(gl, textureFileName3, textureExt3, true);
     	myPondTexture = new MyTexture(gl, textureFileName4, textureExt4, true);
+//    	myGoblinTexture = new MyTexture(gl, textureFileName5, textureExt5, true);
     	
     	sunVector = new double[3];
     	sunVector[0] = - midPoint[0] + mySunlight[0];
