@@ -54,6 +54,10 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     
     private float specular = 0.6f;
     
+    private String textureFileName0 = "src/ass2/Avator.jpg";
+    private String textureExt0 = "jpg";
+    private MyTexture myAvatorTexture;
+    
     
     // Pictures for the texture
     // texture0 grass for the Terrain
@@ -231,13 +235,15 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
 	}
 	
 	public void drawAvator(GL2 gl,double[] location){
+		
+		gl.glBindTexture(GL2.GL_TEXTURE_2D, myAvatorTexture.getTextureId());
     	double deltaT;
     	deltaT = 0.5/stacks;
     	int ang;  
     	int delang = 360/slices;
     	double x1,x2,z1,z2,y1,y2;
     	gl.glPushMatrix();
-    	gl.glTranslated(location[0], location[1], location[2]);
+    	gl.glTranslated(location[0], location[1]+0.2, location[2]);
     	for (int i = 0; i < stacks; i++) 
     	{ 
     		double t = -0.25 + i*deltaT;
@@ -259,7 +265,10 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
 
     			MathUtil.normalise(normal);    
 
-    			gl.glNormal3dv(normal,0);         
+    			gl.glNormal3dv(normal,0);      
+    			double tCoord = 1.0/stacks * i;
+    			double sCoord = 1.0/slices * j;
+    			gl.glTexCoord2d(sCoord, tCoord);
     			gl.glVertex3d(x1,y1,z1);
     			normal[0] = x2;
     			normal[1] = y2;
@@ -267,6 +276,8 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
 
     			MathUtil.normalise(normal);    
     			gl.glNormal3dv(normal,0); 
+    			tCoord = 1.0/stacks * (i+1);
+    			gl.glTexCoord2d(sCoord, tCoord);
     			gl.glVertex3d(x2,y2,z2); 
     		}; 
     		gl.glEnd();
@@ -301,7 +312,7 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     	
     	
     	myTime = System.currentTimeMillis();
-    	
+    	myAvatorTexture = new MyTexture(gl, textureFileName0, textureExt0, true);
     	myTerrain.init(gl);
 		
 	}
