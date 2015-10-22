@@ -167,7 +167,7 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
         double dt = (time - myTime) / 1000.0;
         myTime = time;
         
-        myTerrain.updateTime(dt);
+        myTerrain.update(dt);
 		GL2 gl = drawable.getGL().getGL2();
 		gl.glClearColor(0.6f ,0.9f, 0.99f, 1);
     	gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);

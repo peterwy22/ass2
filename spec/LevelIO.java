@@ -69,6 +69,18 @@ public class LevelIO {
             }
         }
         
+        if (jsonTerrain.has("ponds")) {
+            JSONArray jsonPonds = jsonTerrain.getJSONArray("ponds");
+            for (int i = 0; i < jsonPonds.length(); i++) {
+                JSONObject jsonPond = jsonPonds.getJSONObject(i);
+                
+                double x = jsonPond.getDouble("x");
+                double z = jsonPond.getDouble("z");
+                double r = jsonPond.getDouble("radius");
+                terrain.addPond(x, z, r);
+            }
+        }
+        
         if (jsonTerrain.has("roads")) {
             JSONArray jsonRoads = jsonTerrain.getJSONArray("roads");
             for (int i = 0; i < jsonRoads.length(); i++) {
@@ -152,6 +164,17 @@ public class LevelIO {
             roads.put(j);
         }
         json.put("roads", roads);
+        
+        JSONArray ponds = new JSONArray();
+        for (Pond p : terrain.ponds()) {
+            JSONObject j = new JSONObject();
+            double[] pos = p.getPosition();
+            j.put("radius", p.getRadius());
+            j.put("x", pos[0]);
+            j.put("z", pos[2]);
+            ponds.put(j);
+        }
+        json.put("ponds", ponds);
 
         FileWriter out = new FileWriter(file);
         json.write(out);

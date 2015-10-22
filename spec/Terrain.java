@@ -27,6 +27,7 @@ public class Terrain {
     private List<Tree> myTrees;
     private List<Road> myRoads;
     private List<Goblin> myGoblins;
+    private List<Pond> myPonds;
     private float[] mySunlight;
     private double[] green = {0,1,0,1};
     private boolean showLines = false;
@@ -45,6 +46,10 @@ public class Terrain {
     private String textureFileName3 = "src/ass2/road.jpg";
     private String textureExt3 = "jpg";
     private MyTexture myRoadTexture;
+    
+    private String textureFileName4 = "src/ass2/water.jpg";
+    private String textureExt4 = "jpg";
+    private MyTexture myPondTexture;
     
     
     private double dayLength = 30;
@@ -71,6 +76,7 @@ public class Terrain {
         myTrees = new ArrayList<Tree>();
         myGoblins = new ArrayList<Goblin>();
         myRoads = new ArrayList<Road>();
+        myPonds = new ArrayList<Pond>();
         mySunlight = new float[3];
         
         sunColor = new float[4];
@@ -87,6 +93,7 @@ public class Terrain {
     	myTreeTextures[0] = new MyTexture(gl, textureFileName1, textureExt1, true);
     	myTreeTextures[1] = new MyTexture(gl, textureFileName2, textureExt2, true);
     	myRoadTexture = new MyTexture(gl, textureFileName3, textureExt3, true);
+    	myPondTexture = new MyTexture(gl, textureFileName4, textureExt4, true);
     	
     	sunVector = new double[3];
     	sunVector[0] = - midPoint[0] + mySunlight[0];
@@ -111,6 +118,17 @@ public class Terrain {
     	}
     	updateSunPos();
     	updateSunColor();
+    }
+    
+    public void update(double dt){
+    	updateTime(dt);
+    	updatePonds(dt);
+    }
+    
+    public void updatePonds(double dt){
+    	for (int i = 0; i < myPonds.size();i++){
+    		myPonds.get(i).update(dt);
+    	}
     }
     
     public float[] getSunColor(){
@@ -160,6 +178,10 @@ public class Terrain {
 
     public List<Road> roads() {
         return myRoads;
+    }
+    
+    public List<Pond> ponds() {
+        return myPonds;
     }
 
     public float[] getSunlight() {
@@ -268,6 +290,11 @@ public class Terrain {
         myGoblins.add(goblin);
     }
 
+    public void addPond(double x, double z, double r) {
+        double y = altitude(x, z);
+        Pond pond = new Pond(x, y, z, r);
+        myPonds.add(pond);
+    }
 
     /**
      * Add a road. 
@@ -352,6 +379,11 @@ public class Terrain {
     	
     	for (int i = 0; i < myGoblins.size(); i++){
     		myGoblins.get(i).draw(gl);
+    		//System.out.println(i);
+    	}
+    	
+    	for (int i = 0; i < myPonds.size(); i++){
+    		myPonds.get(i).draw(gl,myPondTexture);
     		//System.out.println(i);
     	}
     	
