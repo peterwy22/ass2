@@ -32,6 +32,14 @@ public class Goblin {
 				0,1,0,
 				0,1,0}; 
 		
+		private double normals[][] = {{0,-1,0},
+				{0,1,0},
+				{-1,0,0},
+				{1,0,0},
+				{0,0,-1},
+				{0,0,1}
+		};
+		
 		//Best to use smallest data type possible for indexes 
 		//We could even use byte here...
 	private short indexes[] = {0,4,5,1,6,2,3,7,2,0,1,3,4,6,7,5,4,0,2,6,1,5,7,3};
@@ -126,15 +134,16 @@ public class Goblin {
 	   	    // Specify locations for the co-ordinates and color arrays.
 	        gl.glEnableVertexAttribArray(vertexPosLoc);
 	        gl.glEnableVertexAttribArray(vertexColLoc);
-	   	   	gl.glVertexAttribPointer(vertexPosLoc,3, GL.GL_FLOAT, false,0, 0); //last num is the offset
-	   	   	gl.glVertexAttribPointer(vertexColLoc,3, GL.GL_FLOAT, false,0, positions.length*Float.BYTES);
+	   	   	gl.glVertexAttribPointer(vertexPosLoc,3, GL.GL_FLOAT, true,0, 0); //last num is the offset
+	   	   	gl.glVertexAttribPointer(vertexColLoc,3, GL.GL_FLOAT, true,0, positions.length*Float.BYTES);
 	       
 	    	
 	   	    gl.glBindBuffer(GL2.GL_ELEMENT_ARRAY_BUFFER, bufferIds[1]);
 	   	 
-	   	
-	    	gl.glDrawElements(GL2.GL_QUADS, 24, GL2.GL_UNSIGNED_SHORT,0);    
-	    	
+	   	    for(int i = 0; i < 6; i++){
+	   	    	gl.glNormal3d(normals[i][0], normals[i][1], normals[i][2]);
+	   	    	gl.glDrawElements(GL2.GL_QUADS, 4, GL2.GL_UNSIGNED_SHORT,i*8);  
+	   	    }
 	    	
 	    	gl.glUseProgram(0);
 	    	   
