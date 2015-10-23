@@ -52,8 +52,8 @@ public class Goblin {
 	//We will be using 2 vertex buffer objects
 	private int bufferIds[] = new int[2];
 	
-	private static final String VERTEX_SHADER = "src/ass2/spec/AttributeVertex.glsl";
-	private static final String FRAGMENT_SHADER = "src/ass2/spec/AttributeFragment.glsl";
+	private static final String VERTEX_SHADER = "src/ass2/spec/PhongVertex.glsl";
+	private static final String FRAGMENT_SHADER = "src/ass2/spec/PhongFragment.glsl";
 	
 	private int shaderprogram;
 	
