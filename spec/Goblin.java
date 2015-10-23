@@ -113,6 +113,8 @@ public class Goblin {
         }
 	}
 	
+	
+	// Just a cube
 	public void draw(GL2 gl){
 		
 		float matAmbAndDif[] = {0.6f, 0.6f, 0.6f, 1.0f};

@@ -96,6 +96,16 @@ public class Road {
         return p;
     }
     
+    
+     
+    
+    /**Gets the spine in the middle first, calculate it's normal for the previous point, draw rectangles based on
+     * the two spines, stretch them out to 1/2 width, also make them wider to fill up gaps
+     * 
+     * @param gl
+     * @param terrain
+     * @param texture
+     */
     public void draw(GL2 gl, Terrain terrain, MyTexture texture){
     	gl.glPushMatrix();
     	gl.glTranslated(0, 0.05, 0);

@@ -35,6 +35,7 @@ public class Pond {
 		textCordD = currentTime/CYCLE * 0.5;
 	}
 	
+	//Just a simple circle
 	public void draw(GL2 gl, MyTexture texture){
 		
 			if (texture != null){
