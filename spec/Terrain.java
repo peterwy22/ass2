@@ -112,7 +112,10 @@ public class Terrain {
     	sunAngle = Math.toDegrees(Math.atan2(mySunlight[1], sunDistance));
     	//System.out.println(sunAngle);
     	currentTime = 24.0 * sunAngle/360 + 6;
-
+    	
+    	for (int i = 0; i < myGoblins.size();i++){
+    		myGoblins.get(i).init(gl);
+    	}
     }
     
     public void updateTime(double dt){

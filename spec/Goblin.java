@@ -69,8 +69,7 @@ public class Goblin {
         return myPos;
     }
 	
-	public void draw(GL2 gl){
-		
+	public void init(GL2 gl){
 		//Generate 2 VBO buffer and get their IDs
         gl.glGenBuffers(2,bufferIds,0);
         
@@ -112,11 +111,16 @@ public class Goblin {
             e.printStackTrace();
             System.exit(1);
         }
+	}
+	
+	public void draw(GL2 gl){
+		
+		
         
    	 	
 		gl.glPushMatrix();
 			gl.glTranslated(myPos[0], myPos[1]+0.5, myPos[2]);
-			gl.glScaled(0.4, 0.4, 0.4);
+			gl.glScaled(0.2, 0.2, 0.2);
 			drawCube(gl);
 		gl.glPopMatrix();
 	}
