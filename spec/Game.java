@@ -243,6 +243,17 @@ public class Game extends JFrame implements GLEventListener,KeyListener{
     	int delang = 360/slices;
     	double x1,x2,z1,z2,y1,y2;
     	gl.glPushMatrix();
+    	
+    	float matAmbAndDif[] = {0.3f, 0.3f, 0.3f, 1.0f};
+        float matSpec[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+        float matShine[] = { 30.0f };
+        float emm[] = {0.2f, 0.2f, 0.2f, 1.0f};
+        // Material properties of sphere.
+        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT_AND_DIFFUSE, matAmbAndDif,0);
+        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, matSpec,0);
+        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SHININESS, matShine,0);
+        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, emm,0);
+    	
     	gl.glTranslated(location[0], location[1]+0.2, location[2]);
     	for (int i = 0; i < stacks; i++) 
     	{ 

@@ -41,6 +41,8 @@ public class Pond {
 				gl.glBindTexture(GL2.GL_TEXTURE_2D, texture.getTextureId());
 			}
 			gl.glPushMatrix();
+			
+	        
 			gl.glTranslated(myPos[0], myPos[1] + 0.1, myPos[2]);
 			gl.glBegin(GL2.GL_TRIANGLE_FAN);
 			{	

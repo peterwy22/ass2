@@ -222,6 +222,15 @@ public class Road {
     	//System.out.println(p3[0] + ","+p3[1]+","+p3[2]+"|");
     	
     	//gl.glBindTexture(GL2.GL_TEXTURE_2D, myTerrainTexture.getTextureId());
+    	float matAmbAndDif[] = {0.5f, 0.5f, 0.5f, 1.0f};
+        float matSpec[] = { 0.4f, 0.4f, 0.4f, 1.0f };
+        float matShine[] = { 30.0f };
+        float emm[] = {0.0f, 0.0f, 0.0f, 1.0f};
+        // Material properties of sphere.
+        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT_AND_DIFFUSE, matAmbAndDif,0);
+        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, matSpec,0);
+        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SHININESS, matShine,0);
+        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, emm,0);
 		gl.glBegin(GL2.GL_TRIANGLES);
 		{	
 			//I add textures amoung every vertex
